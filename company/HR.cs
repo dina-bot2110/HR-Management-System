@@ -9,7 +9,7 @@ namespace company
 {
     public class HR:Employee
     {
-        public static void AddEmployee(List<Employee>employees,HR emp)
+        public static void AddEmployee(List<Employee>employees,HR emp)// اضافة موظف جديد
         {
 
             Console.Write($"Name of new employee: ");
@@ -29,7 +29,7 @@ namespace company
             logger.Log($"Employee {emp.Name}, whose ID is {emp.ID}, has been added with a salary of {emp.salary_}");            
         }
 
-        public static void ViewEmployee(List<Employee> employees)
+        public static void ViewEmployee(List<Employee> employees)//عرض موظفين الشركة
         {
             Console.WriteLine("{0,-3} {1,-20} {2,-6} {3,-15} {4,-15} {5,-10}",
         "#", "Name", "ID", "Department", "Role", "Salary");

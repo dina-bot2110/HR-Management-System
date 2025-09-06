@@ -13,12 +13,15 @@ namespace company
         public decimal Overtime;
         public decimal Bonus;
         public double WorkingHours;
+        //دالة بتحسب مرتبات الموظفين
         public static void CalculatePoyroll(int index, List<Employee> employees, List<Attendance> attendances)
         {
             string s=employees[index].Role;
             if (s == "Intern")
             {
+                //مرتبه ثابت 
                 Console.WriteLine($"This employee's salary {employees[index].salary_:c4}");
+                //بسجل العملية ف ملف ال systeam
                 logger.Log($"Payroll calculated for Employee {employees[index].Name} (ID:{employees[index].ID}) → Base={employees[index].salary_:c4}, No overtime, Final={employees[index].salary_:c4}");
             }
             else if (s == "Developer")
@@ -28,15 +31,22 @@ namespace company
                 {
                     if (id == attendances[i].ID)
                     {
+                        // 22 عدد ايام العمل ف الشهر تقريبا
+                        //8 عدد ساعات العمل ف اليوم
+                        //بحسب سعر ساعة العمل بكام
                         decimal Hourly_salary = employees[index].salary_ / (22 * 8);
+                        //ساعة ال overtime تساوي مرة و نص ساعة العمل العادية
                         decimal overtime_money = attendances[i].total_hours * Hourly_salary * 1.5m;
+                        //مرتبه بعد ال overtime
                         Console.WriteLine($"This employee's salary {employees[index].salary_ + overtime_money:c4}");
+                        //بسجل العملية ف ملف ال systeam
                         logger.Log($"Payroll calculated for Employee {employees[index].Name} (ID:{employees[index].ID}) → Base={employees[index].salary_:c4}, Overtime={overtime_money:c4}, Final={employees[index].salary_ + overtime_money:c4}");
                     }
                 }
             }
             else //Manager
             {
+                // بسأل الHR في بونص للمدير دا ولا لا
                 Console.Write("Do you want to give a bonus to this manager? (yes/no): ");
                 string choice = Console.ReadLine();
                 decimal bonus = 0;
@@ -44,8 +54,9 @@ namespace company
                 {
                     Console.Write("Enter bonus amount: ");
                     bonus = decimal.Parse(Console.ReadLine());
-                }
+                }                
                 Console.WriteLine($"This Manager's salary: {employees[index].salary_ + bonus:c4}");
+                //بسجل العملية ف ملف الsysteam
                 logger.Log($"Payroll calculated for Employee {employees[index].Name} (ID:{employees[index].ID}) → Base={employees[index].salary_:c4}, Bonus={bonus:c4}, Final={employees[index].salary_ + bonus:c4}");
             }
             Console.ForegroundColor = ConsoleColor.Red;

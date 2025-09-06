@@ -8,7 +8,7 @@ namespace company
         static void Main(string[] args)
         { 
             string path_attendance = @"D:\Helper\HR Management System\attendance";
-            
+            //لو الملف مش موجود ينشئ واحد 
             if (!File.Exists(path_attendance))
             {
                 using (StreamWriter writer = new StreamWriter(path_attendance, false))
@@ -18,27 +18,31 @@ namespace company
                     writer.WriteLine(new string('-', 40));
                 }
             }
+            //مواظفين ببدأبيهم
             Employee emp1 = new Employee("Ahmed Ali", "IT", 1001, "Developer", 8000m);
             Employee emp2 = new Employee("Mona Hassan", "HR", 1002, "HR", 10000m);
             Employee emp3 = new Employee("Omar Khaled", "Finance", 1003, "Manager", 15000m);
             Employee emp4 = new Employee("Sara Mostafa", "IT", 1004, "Intern", 3000m);
             Employee emp5 = new Employee("Youssef Ibrahim", "Marketing", 1005, "Developer", 8500m);
             Employee emp6 = new Employee("Laila Adel", "HR", 1006, "HR", 9500m);
-            Employee emp7 = new Employee("Karim Samir", "HR", 1007, "HR", 11000m);
+            Employee emp7 = new Employee("Karim Samir", "HR", 1007, "HR", 11000m);            
             List<Employee> employees = new List<Employee>() { emp1, emp2, emp3, emp4, emp5, emp6, emp7};
             List<Attendance> attendances = new List<Attendance>();
             List<LeaveRequest> leaveRequests = new List<LeaveRequest>();
              
             while (true) { 
                 Employee employee=new Employee();
+                //الموظف بيعمل تسجيل دخول
                 int employee_number = employee.login(employees);
-                if (employee_number==-1)
+                if (employee_number==-1)// لو في غلط ف البيانات بيدخل من الاول
                 {
                     Console.WriteLine("Name or ID or Role is not correct");
                     continue;
                 }
+                //بشوف الموظف دا Admin او HR و بتجاهل حالة الحروف
                 if (employee.Role.Equals("admin", StringComparison.OrdinalIgnoreCase) || employee.Role.Equals("HR", StringComparison.OrdinalIgnoreCase))
                 {
+                    //صلاحيات ال HR
                     Console.WriteLine("1. Add Employee");
                     Console.WriteLine("2. Calculate Payroll");
                     Console.WriteLine("3. View Attendance");                    
@@ -46,28 +50,28 @@ namespace company
                     Console.WriteLine("5. Exit");
                     Console.Write("Enter number of your choise: ");
                     int choise = int.Parse(Console.ReadLine());
-                    if (choise == 1)
+                    if (choise == 1)// اضافة مزظف جديد للشركة
                     {     
                         HR emp = new HR();
                         HR.AddEmployee(employees,emp);
                         
                     }
-                    else if (choise == 2)
+                    else if (choise == 2)//بيحسب مرتب موظف ف الشركة
                     {
                         HR.ViewEmployee(employees);
                         Console.Write("Enter the employee number: ");
                         int index=int .Parse(Console.ReadLine())-1;
                         Payroll.CalculatePoyroll(index,employees,attendances);                        
                     }
-                    else if (choise == 3)
+                    else if (choise == 3)// بيشوف غياب و حضور الموظفيين
                     {
                         Attendance.ViewAttendanceFile(path_attendance);
                     }                    
-                    else if (choise == 4)
+                    else if (choise == 4)// بيشوف الاحداث الل حصلت
                     {
                         logger.ViewLog();
                     }
-                    else if (choise == 5)
+                    else if (choise == 5)// غلق النظام
                     {
                         Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine("System shut down successfully.");
@@ -76,23 +80,25 @@ namespace company
                         break;
                     }
                 }
+                // بشوف الموظف دا manager و بتجاهل حالة الحروف
                 else if (employee.Role.Equals("Manager", StringComparison.OrdinalIgnoreCase))
                 {
+                    //صلاحيات ال manager
                     Console.WriteLine("1.Check-in");
                     Console.WriteLine("2.Check-out");
                     Console.WriteLine("3.Manage request Leave");
                     Console.Write("Enter number of your choise: ");
                     int choise = int.Parse(Console.ReadLine());
-                    if (choise == 1)
+                    if (choise == 1)//بيسجل دخول
                     {
                         Attendance.Check_in(employee_number,employees,attendances);
                         
                     }
-                    else if (choise == 2)
+                    else if (choise == 2)//بيسجل خروج
                     {
                         Attendance.Check_out(employee_number, path_attendance, employees, attendances);
                     }
-                    else if (choise == 3)
+                    else if (choise == 3)// بيوافق او يرفض الاجازات
                     {
                         LeaveRequest.ViewLeaveRequests(leaveRequests);
                         Console.Write("Enter the request number you want to review: ");
@@ -114,21 +120,22 @@ namespace company
                 }
                 else //Develper || Intern
                 {
+                    //صلاحيات المطور و المتدرب
                     Console.WriteLine("1.Check-in");
                     Console.WriteLine("2.Check-out");
                     Console.WriteLine("3.Request Leave");
                     Console.Write("Enter number of your choise: ");
                     int choise = int.Parse(Console.ReadLine());                    
-                    if (choise == 1)
+                    if (choise == 1)//بيسجل دخول
                     {
                         Attendance.Check_in(employee_number, employees, attendances);
 
                     }
-                    else if (choise == 2)
+                    else if (choise == 2)//بيسجل خروج
                     {
                         Attendance.Check_out(employee_number, path_attendance, employees, attendances);
                     }
-                    else if (choise == 3)
+                    else if (choise == 3)// بيقدم طلب اجازة
                     {
                         Console.Write("Enter the number of leave days: ");
                         int days=int.Parse(Console.ReadLine());

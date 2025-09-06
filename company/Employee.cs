@@ -26,8 +26,8 @@ namespace company
         }
         public int login(List<Employee>employees)
         {
-            Console.WriteLine("-------------------------login-------------------------");
-            int employee_number = -1;
+            Console.WriteLine("-------------------------login------------------------- ");
+            int employee_number = -1;// رقم الموظف اللي دخل
             Console.Write($"Enter your name: ");
             Name = Console.ReadLine();
             Console.Write($"Enter your ID: ");
@@ -38,12 +38,14 @@ namespace company
             Role = Console.ReadLine();
             for (int i = 0; i < employees.Count; i++)
             {
+                //بشوف في موظف بالبيانات اللي هو دخلها ولا لا و بتجاهل حالة الحروف 
                 if (employees[i].ID == ID&& employees[i].Role.Equals(Role, StringComparison.OrdinalIgnoreCase) && employees[i].Name.Equals(Name, StringComparison.OrdinalIgnoreCase) && employees[i].Department.Equals(Department, StringComparison.OrdinalIgnoreCase))
-                    employee_number=i;
+                    employee_number=i; //لو لقيت موظف بالبيانات اللي دخلت بغير رقم الموظف
             }
-                return employee_number;
+                return employee_number; //برجع رقم الموظف علشان لو ب -1 اعرف ان مفيش موظف بالبيانات دي
         }
-        public Employee(string n,string d, int i, string r, decimal s)
+
+        public Employee(string n,string d, int i, string r, decimal s)//constructor
         {
            ID=i;
            Name=n;
@@ -51,7 +53,7 @@ namespace company
            Salary=s;
            Role=r;
         }
-        public Employee() { }
+        public Employee() { } //constructor
 
     }
 }

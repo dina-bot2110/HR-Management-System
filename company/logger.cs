@@ -8,15 +8,16 @@ namespace company
 {
     internal class logger
     {
+        //مسار ملف ال systeam
         private static string path_log_file = @"D:\Helper\HR Management System\system.log";
-        public static void Log(string action)
+        public static void Log(string action)// دالة ضافة الاحداث الى ملف الsysteam
         {
             using (StreamWriter writer = new StreamWriter(path_log_file, true))
             {
                 writer.WriteLine($"{DateTime.Now}: {action}");
             }
         }
-        public static void ViewLog()
+        public static void ViewLog()//عرض محتوايات ملف ال systeam
         {            
             if (File.Exists(path_log_file))
             {
